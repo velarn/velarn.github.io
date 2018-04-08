@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="环境描述 硬件平台：天嵌E9-V3 iMXQ 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads/">
+<meta name="description" content="环境描述 硬件平台：天嵌E9-V3 iMX6Q 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads">
 <meta name="keywords" content="交叉编译,MySQL,iMX6Q">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为天嵌E9交叉编译MySQL">
 <meta property="og:url" content="http://yoursite.com/2018/04/08/交叉编译MySQL/index.html">
 <meta property="og:site_name" content="L.LB">
-<meta property="og:description" content="环境描述 硬件平台：天嵌E9-V3 iMXQ 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads/">
+<meta property="og:description" content="环境描述 硬件平台：天嵌E9-V3 iMX6Q 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-08T10:40:33.762Z">
+<meta property="og:updated_time" content="2018-04-08T10:45:28.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为天嵌E9交叉编译MySQL">
-<meta name="twitter:description" content="环境描述 硬件平台：天嵌E9-V3 iMXQ 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads/">
+<meta name="twitter:description" content="环境描述 硬件平台：天嵌E9-V3 iMX6Q 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads">
 
 
 
@@ -342,7 +342,7 @@
 
       
         <h1 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h1><ol>
-<li>硬件平台：天嵌E9-V3 iMXQ</li>
+<li>硬件平台：天嵌E9-V3 iMX6Q</li>
 <li>交叉编译器版本：arm-none-linux-gnueabihf</li>
 <li>MySql版本：5.7.21</li>
 <li>上位机版本：Ubuntu 17.04</li>
@@ -352,6 +352,7 @@
 <h2 id="下载boost源码："><a href="#下载boost源码：" class="headerlink" title="下载boost源码："></a>下载boost源码：</h2><p><a href="https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="external">https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></p>
 <h2 id="下载ncurses源码："><a href="#下载ncurses源码：" class="headerlink" title="下载ncurses源码："></a>下载ncurses源码：</h2><p><a href="https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz" target="_blank" rel="external">https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz</a> </p>
 <p><strong>注意：5.7.21版本mysql对应的boost版本是1.59.0</strong>  </p>
+<a id="more"></a> 
 <h1 id="编译pc版本mysql"><a href="#编译pc版本mysql" class="headerlink" title="编译pc版本mysql"></a>编译pc版本mysql</h1><h2 id="解压源码至mysql-5-7-21-pc并编译"><a href="#解压源码至mysql-5-7-21-pc并编译" class="headerlink" title="解压源码至mysql-5.7.21-pc并编译"></a>解压源码至mysql-5.7.21-pc并编译</h2><h3 id="执行带参数camke命令"><a href="#执行带参数camke命令" class="headerlink" title="执行带参数camke命令"></a>执行带参数camke命令</h3><p>在mysql-5.7.21-pc目录下执行： </p>
 <p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/home/velarn/work/mysql/build/ -DMYSQL_DATADIR=/home/velarn/work/mysql/build/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0</code></p>
 <p><strong>编译选项对应说明：</strong></p>
