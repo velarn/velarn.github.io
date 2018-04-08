@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="L.LB">
 <meta property="og:description" content="转自：写一个通用的Makefile文件   make是一种自动构建目标文件的工具，最早应用于 C 语言的编译过程，现在也用于 node.js 等工程中。其语法独特而复杂，上手有一定的难度。这篇文章中我会以一个 C++ 工程为例，展示如何编写一个通用的 Makefile 文件。Makefile 的基本语法是 12TARGETS: DEPENDENCIES	OPERATIONS 每个Makefile">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-07T04:02:56.969Z">
+<meta property="og:updated_time" content="2018-04-08T02:26:18.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Markdown文件编写">
 <meta name="twitter:description" content="转自：写一个通用的Makefile文件   make是一种自动构建目标文件的工具，最早应用于 C 语言的编译过程，现在也用于 node.js 等工程中。其语法独特而复杂，上手有一定的难度。这篇文章中我会以一个 C++ 工程为例，展示如何编写一个通用的 Makefile 文件。Makefile 的基本语法是 12TARGETS: DEPENDENCIES	OPERATIONS 每个Makefile">
@@ -187,6 +187,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -306,8 +326,7 @@
 <p>每个<strong>Makefile</strong> 文件都要指定一个终极目标。<strong>make</strong>工具会查看这个终极目标的依赖关系，将它分解成多个子目标，然后再自底向上地执行子目标的操作，在完成子目标的基础上实现终极目标。</p>
 <p>当程序足够简单的时候，我们的<strong>Makefile</strong>可能只有一个目标。现在我们来设想一个比较复杂的情况。有这样一个 C++ 的工程：</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">demo</div><div class="line">	|- <span class="keyword">include</span></div><div class="line">		|- demo.hpp</div><div class="line">	|- src</div><div class="line">		|- demo.cpp</div><div class="line">		|- main.cpp</div><div class="line">	|- test</div><div class="line">		|- test.cpp</div></pre></td></tr></table></figure>
-<p>源文件、头文件和测试文件分别放置在三个文件夹中，如何顺利地编译这个工程呢？  </p>
-<p>如果你已经熟悉了<strong>Makefile</strong>的编写，你应该看得懂下面的操作：</p>
+<p>源文件、头文件和测试文件分别放置在三个文件夹中，如何顺利地编译这个工程呢？<br><a id="more"></a><br>如果你已经熟悉了<strong>Makefile</strong>的编写，你应该看得懂下面的操作：</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="section">.SUFFIXES:</span></div><div class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: all clean</span></div><div class="line">CXX := g++</div><div class="line">CXXFLAGS := -Wall -g</div><div class="line">INCLUDES := -Iinclude</div><div class="line">LIBS := -lm</div><div class="line">TARGET := demo.exe</div><div class="line">OBJS := src/main.o src/demo.o test/test.o</div><div class="line"><span class="section">all: <span class="variable">$(TARGET)</span></span></div><div class="line"><span class="variable">$(TARGET)</span>: <span class="variable">$(OBJS)</span></div><div class="line">	<span class="variable">$(CXX)</span> <span class="variable">$(CXXFLAGS)</span> <span class="variable">$(INCLUDES)</span> <span class="variable">$(LIBS)</span> <span class="variable">$^</span> -o <span class="variable">$@</span></div><div class="line"><span class="variable">$(OBJS)</span>: %.o: %.cpp</div><div class="line">	<span class="variable">$(CXX)</span> <span class="variable">$(CXXFLAGS)</span> <span class="variable">$(INCLUDES)</span> <span class="variable">$&lt;</span> -c -o <span class="variable">$@</span></div><div class="line"><span class="section">clean:</span></div><div class="line">	-@rm -f <span class="variable">$(TARGET)</span></div><div class="line">	-@rm -f <span class="variable">$(OBJS)</span></div></pre></td></tr></table></figure>
 <p>虽然<strong>Makefile</strong>变长了，但它的语义却更加清晰。如果我们要添加新的目标文件，只需要修改变量$(OBJS)的值即可。</p>
 <p>不过这还是不够完美。有没有一种办法，可以不用输入目标文件的名字，只要是文件夹下符合要求的文件（例如所有的.cpp文件），统统拿来编译呢？这也不困难，只要运用通配符和有关的字符串函数就行了：</p>
@@ -356,6 +375,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/08/交叉编译MySQL/" rel="prev" title="交叉编译MySQL">
+                交叉编译MySQL <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -423,22 +446,31 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
             
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">2</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -475,7 +507,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

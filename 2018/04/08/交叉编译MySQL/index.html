@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="交叉编译,MySQL,iMX6Q," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.1 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.2 下载boost源码：https://jaist.dl.sourceforge.net/project/">
+<meta name="keywords" content="交叉编译,MySQL,iMX6Q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="交叉编译MySQL">
+<meta property="og:url" content="http://yoursite.com/2018/04/08/交叉编译MySQL/index.html">
+<meta property="og:site_name" content="L.LB">
+<meta property="og:description" content="一、编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.1 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.2 下载boost源码：https://jaist.dl.sourceforge.net/project/">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-08T02:20:13.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="交叉编译MySQL">
+<meta name="twitter:description" content="一、编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.1 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.2 下载boost源码：https://jaist.dl.sourceforge.net/project/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/08/交叉编译MySQL/"/>
+
+
+
+
+
+  <title>交叉编译MySQL | L.LB</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">L.LB</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">敢问路在何方呐</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/08/交叉编译MySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="velarn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L.LB">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">交叉编译MySQL</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-08T09:56:57+08:00">
+                2018-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、编译前准备"><a href="#一、编译前准备" class="headerlink" title="一、编译前准备"></a>一、编译前准备</h1><h2 id="主要参考："><a href="#主要参考：" class="headerlink" title="主要参考："></a>主要参考：</h2><p><a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">https://blog.csdn.net/fhyocean/article/details/74960005</a></p>
+<h2 id="1-1-下载mysql源码："><a href="#1-1-下载mysql源码：" class="headerlink" title="1.1 下载mysql源码："></a>1.1 下载mysql源码：</h2><p><a href="https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz" target="_blank" rel="external">https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz</a></p>
+<h2 id="1-2-下载boost源码："><a href="#1-2-下载boost源码：" class="headerlink" title="1.2 下载boost源码："></a>1.2 下载boost源码：</h2><p><a href="https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="external">https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></p>
+<h2 id="1-3-下载ncurses源码："><a href="#1-3-下载ncurses源码：" class="headerlink" title="1.3 下载ncurses源码："></a>1.3 下载ncurses源码：</h2><p><a href="https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz" target="_blank" rel="external">https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz</a> </p>
+<p><strong>注意：5.7.21版本mysql对应的boost版本是1.59.0</strong> </p>
+<a id="more"></a>
+<h1 id="二、编译PC版本mysql"><a href="#二、编译PC版本mysql" class="headerlink" title="二、编译PC版本mysql"></a>二、编译PC版本mysql</h1><h2 id="2-1-解压源码至mysql-5-7-21-pc并编译"><a href="#2-1-解压源码至mysql-5-7-21-pc并编译" class="headerlink" title="2.1 解压源码至mysql-5.7.21-pc并编译"></a>2.1 解压源码至mysql-5.7.21-pc并编译</h2><h3 id="在mysql-5-7-21-pc目录下执行："><a href="#在mysql-5-7-21-pc目录下执行：" class="headerlink" title="在mysql-5.7.21-pc目录下执行："></a>在mysql-5.7.21-pc目录下执行：</h3><p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/home/velarn/work/mysql/build/ -DMYSQL_DATADIR=/home/velarn/work/mysql/build/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0</code></p>
+<p><strong>编译选项对应说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> -DCMAKE_INSTALL_PREFIX</td>
+<td>mysql安装目录  </td>
+</tr>
+<tr>
+<td> -DMYSQL_DATADIR</td>
+<td>mysql数据库的安装目录  </td>
+</tr>
+<tr>
+<td> -DDEFAULT_CHARSET</td>
+<td>使用utf8字符  </td>
+</tr>
+<tr>
+<td> -DDEFAULT_COLLATION</td>
+<td>校验字符  </td>
+</tr>
+<tr>
+<td> -DEXTRA_CHARSETS</td>
+<td>安装所有扩展字符集  </td>
+</tr>
+<tr>
+<td> -DENABLED_LOCAL_INFILE</td>
+<td>允许从本地导入数据  </td>
+</tr>
+<tr>
+<td> -DWITH_BOOST</td>
+<td>Boost库的头文件路径（mysql5.7.18安装需要boost库支持）  </td>
+</tr>
+</tbody>
+</table>
+<h4 id="报错-“No-CMAKE-CXX-COMPILER-could-be-found-”："><a href="#报错-“No-CMAKE-CXX-COMPILER-could-be-found-”：" class="headerlink" title="报错 “No CMAKE_CXX_COMPILER could be found. ”："></a>报错 “No CMAKE_CXX_COMPILER could be found. ”：</h4><p><code>No CMAKE_CXX_COMPILER could be found.
+Tell CMake where to find the compiler by setting either the environment 
+variable “CXX” or the CMake cache entry CMAKE_CXX_COMPILER to the full path 
+to the compiler, or to the compiler name if it is in the PATH.</code></p>
+<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h4><p>sudo apt-get update<br>sudo apt-get install -y build-essential</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://blog.csdn.net/xx352890098/article/details/78819852" target="_blank" rel="external">https://blog.csdn.net/xx352890098/article/details/78819852</a></p>
+<h3 id="再次执行cmake带参数命令"><a href="#再次执行cmake带参数命令" class="headerlink" title="再次执行cmake带参数命令"></a>再次执行cmake带参数命令</h3><h4 id="报错-“找不到curses”："><a href="#报错-“找不到curses”：" class="headerlink" title="报错 “找不到curses”："></a>报错 “找不到curses”：</h4><p><code>找不到curses</code></p>
+<h4 id="解决方法：-1"><a href="#解决方法：-1" class="headerlink" title="解决方法："></a>解决方法：</h4><p>sudo apt install libncurses5-dev</p>
+<h3 id="再次执行cmake带参数命令-1"><a href="#再次执行cmake带参数命令-1" class="headerlink" title="再次执行cmake带参数命令"></a>再次执行cmake带参数命令</h3><h2 id="2-2-make"><a href="#2-2-make" class="headerlink" title="2.2 make"></a>2.2 make</h2><p>cmake没有错误的情况下，执行make -j4开始编译。<br>无需make install。</p>
+<p><strong>编译pc版本的目的</strong><br>为了产生：</p>
+<ol>
+<li>extra/comp_err </li>
+<li>scripts/comp_sql </li>
+<li>sql/gen_lex_hash </li>
+<li>sql/gen_lex_token </li>
+<li>extra/protobuf/protoc </li>
+<li>libmysql/libmysql_api_test </li>
+</ol>
+<p>这六个文件，这6个文件在编译arm版本的mysql时需要替换过去并touch。否则arm版本不能编译通过。</p>
+<p><strong>至此pc版本mysql编译完成</strong></p>
+<hr>
+<h1 id="三、编译arm版本mysql"><a href="#三、编译arm版本mysql" class="headerlink" title="三、编译arm版本mysql"></a>三、编译arm版本mysql</h1><h2 id="3-1-交叉编译ncurses"><a href="#3-1-交叉编译ncurses" class="headerlink" title="3.1 交叉编译ncurses"></a>3.1 交叉编译ncurses</h2><p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++</code></p>
+<h4 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h4><p><code>In file included from ./curses.priv.h:325:0,
+                 from ../ncurses/lib_gen.c:19:
+_24273.c:843:15: error: expected ‘)’ before ‘int’
+../include/curses.h:1631:56: note: in definition of macro ‘mouse_trafo&#39; #define mouse_trafo(y,x,to_screen) wmouse_trafo(stdscr,y,x,to_screen)</code></p>
+<h4 id="解决方法：添加CPPFLAGS-P选项"><a href="#解决方法：添加CPPFLAGS-P选项" class="headerlink" title="解决方法：添加CPPFLAGS=-P选项"></a>解决方法：添加<strong>CPPFLAGS=-P</strong>选项</h4><p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++ CPPFLAGS=-P</code></p>
+<h4 id="参考：-1"><a href="#参考：-1" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://stackoverflow.com/questions/37475222/ncurses-6-0-compilation-error-error-expected-before-int/37475223" target="_blank" rel="external">https://stackoverflow.com/questions/37475222/ncurses-6-0-compilation-error-error-expected-before-int/37475223</a></p>
+<h2 id="3-2-CMAKE"><a href="#3-2-CMAKE" class="headerlink" title="3.2 CMAKE"></a>3.2 CMAKE</h2><p>将mysql源码压缩包解压至mysql-5.7.21-arm文件夹并执行:</p>
+<p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/usr/local/arm/mysql -DMYSQL_DATADIR=/usr/local/arm/mysql/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0 -DCURSES_INCLUDE_PATH=/home/velarn/work/ncurses/build/include/ncurses -DCURSES_LIBRARY=/home/velarn/work/ncurses/build/lib/libncurses.a</code></p>
+<p><strong>需要注意的是，</strong></p>
+<p><code>-DCMAKE_INSTALL_PREFIX=/usr/local/arm/mysql
+-DMYSQL_DATADIR=/usr/local/arm/mysql/data</code></p>
+<p><strong>这两项会被填充到最终生成的mysql.server文件中，因此在arm环境中，务必使mysql所在文件夹与此目录相同。否则在arm端运行mysql时会出现问题。</strong></p>
+<h2 id="3-3-make"><a href="#3-3-make" class="headerlink" title="3.3 make"></a>3.3 make</h2><p>cmake无错误，执行make</p>
+<h3 id="3-3-1-make时可能出现的错误"><a href="#3-3-1-make时可能出现的错误" class="headerlink" title="3.3.1 make时可能出现的错误"></a>3.3.1 make时可能出现的错误</h3><p> <strong>第一类：</strong> ncurses文件的头文件包含路径问题</p>
+<p> <strong>第二类：</strong> 用于测试的文件不能执行</p>
+<p> <strong>第三类：</strong> Unsupported platform错误</p>
+<p>下面简单记述一番。</p>
+<h4 id="第一类：ncurses文件的头文件包含路径问题"><a href="#第一类：ncurses文件的头文件包含路径问题" class="headerlink" title="第一类：ncurses文件的头文件包含路径问题"></a>第一类：ncurses文件的头文件包含路径问题</h4><h5 id="出现错误："><a href="#出现错误：" class="headerlink" title="出现错误："></a>出现错误：</h5><p><code>In file included from /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/cmd-line-utils/libedit/terminal.c:60:0:
+/home/velarn/work/ncurses/build/include/ncurses/curses.h:60:33: fatal error: ncurses/ncurses_dll.h: No such file or directory
+compilation terminated.
+cmd-line-utils/libedit/CMakeFiles/edit.dir/build.make:602: recipe for target &#39;cmd-line-utils/libedit/CMakeFiles/edit.dir/terminal.c.o&#39; failed
+make[2]: *** [cmd-line-utils/libedit/CMakeFiles/edit.dir/terminal.c.o] Error 1
+CMakeFiles/Makefile2:457: recipe for target &#39;cmd-line-utils/libedit/CMakeFiles/edit.dir/all&#39; failed
+make[1]: *** [cmd-line-utils/libedit/CMakeFiles/edit.dir/all] Error 2
+Makefile:162: recipe for target &#39;all&#39; failed
+make: *** [all] Error 2</code></p>
+<p>解决方法：<br>把/home/velarn/work/ncurses/build//include/ncurses/curses.h头文件的第60行的 </p>
+<p>`</p>
+<p>#include <nucrses ncursed_dll.h=""><br>`</nucrses></p>
+<p>改为</p>
+<p>`</p>
+<p>#include “/home/velarn/work/ncurses/build/include/ncurses/ncurses_dll.h”<br>`</p>
+<p>此外还需要更改<strong>三处</strong>地方，恕不详加列展，具体问题可参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。</p>
+<p><strong>以上解决curses库头文件关联问题。</strong></p>
+<hr>
+<h4 id="第二类：用于测试的文件不能执行"><a href="#第二类：用于测试的文件不能执行" class="headerlink" title="第二类：用于测试的文件不能执行"></a>第二类：用于测试的文件不能执行</h4><h5 id="make时，错误表现为："><a href="#make时，错误表现为：" class="headerlink" title="make时，错误表现为："></a>make时，错误表现为：</h5><p><code>./comp_err: 1: ./comp_err: Syntax error: word unexpected (expecting &quot;)&quot;)
+extra/CMakeFiles/GenError.dir/build.make:63: recipe for target &#39;include/mysqld_error.h&#39; failed
+make[2]: *** [include/mysqld_error.h] Error 2
+CMakeFiles/Makefile2:6410: recipe for target &#39;extra/CMakeFiles/GenError.dir/all&#39; failed
+make[1]: *** [extra/CMakeFiles/GenError.dir/all] Error 2
+Makefile:162: recipe for target &#39;all&#39; failed
+make: *** [all] Error 2</code></p>
+<p><code>./libmysql_api_test: 1: ./libmysql_api_test: Syntax error: word unexpected (expecting &quot;)&quot;)
+libmysql/CMakeFiles/libmysql_api_test.dir/build.make:95: recipe for target &#39;libmysql/libmysql_api_test&#39; failed
+make[2]: *** [libmysql/libmysql_api_test] Error 2
+make[2]: *** Deleting file &#39;libmysql/libmysql_api_test&#39;
+CMakeFiles/Makefile2:1431: recipe for target &#39;libmysql/CMakeFiles/libmysql_api_test.dir/all&#39; failed
+make[1]: *** [libmysql/CMakeFiles/libmysql_api_test.dir/all] Error 2
+Makefile:162: recipe for target &#39;all&#39; failed
+make: *** [all] Error 2</code></p>
+<p>以及<strong>comp_sql、gen_lex_hash、gen_lex_token、protoc</strong>四个文件。</p>
+<p>解决方法：<br>这类问题的解决方法是，把方才编译好的mysql-5.7.21-PC目录下对应的文件拷贝到mysql-5.7.21-arm相同目录下，替换掉该文件之后首先要在终端下执行touch该文件以更新该的时间（这个是必需的），然后才能继续make。</p>
+<h4 id="第三类：Unsupported-platform错误"><a href="#第三类：Unsupported-platform错误" class="headerlink" title="第三类：Unsupported platform错误"></a>第三类：Unsupported platform错误</h4><p>#####<br>出现错误：<br>error: #error “Unsupported platform”<br>此问题之详细描述请参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。<br>主要解决思想就是修改os0atomic.h和os0atomic.ic两个文件的一些宏定义。</p>
+<h2 id="3-4-make-install"><a href="#3-4-make-install" class="headerlink" title="3.4 make install"></a>3.4 make install</h2><p>执行make并在无错误后，执行完make install，之后会在/usr/local/arm/目录下生成mysql文件夹。</p>
+<p><strong>至此ARM版的mysql交叉编译完成</strong></p>
+<p>需要拷贝并touch的文件</p>
+<p><code>$ cp extra/comp_err /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/
+$ cp scripts/comp_sql /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/scripts/
+$ cp sql/gen_lex_hash /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/
+$ cp sql/gen_lex_token /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/
+$ cp extra/protobuf/protoc /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/protobuf/
+$ cp libmysql/libmysql_api_test /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/libmysql/</code></p>
+<hr>
+<h1 id="四、部署到目标arm板"><a href="#四、部署到目标arm板" class="headerlink" title="四、部署到目标arm板"></a>四、部署到目标arm板</h1><h2 id="4-1-拷贝文件："><a href="#4-1-拷贝文件：" class="headerlink" title="4.1 拷贝文件："></a>4.1 拷贝文件：</h2><ol>
+<li>将/usr/local下的arm目录打包压缩并上传至目标机器的/usr/local/中并解压.</li>
+<li>在/usr/local/arm/mysql目录下创建data文件夹。</li>
+</ol>
+<h2 id="4-2-初始化mysql"><a href="#4-2-初始化mysql" class="headerlink" title="4.2 初始化mysql"></a>4.2 初始化mysql</h2><p>执行：（注意目录）</p>
+<p><code>./mysqld --user=root --basedir=/usr/local/arm/mysql --datadir=/usr/local/arm/mysql/data --initialize</code></p>
+<p>以初始化mysql环境。</p>
+<p>显示信息：</p>
+<p><code>2018-04-04T06:28:01.660078Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2018-04-04T06:28:01.789800Z 0 [Warning] InnoDB: MySQL was built without a memory barrier capability on this architecture, which might allow a mutex/rw_lock violation under high thread concurrency. This may cause a hang.
+2018-04-04T06:28:07.048011Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2018-04-04T06:28:07.821112Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2018-04-04T06:28:07.988962Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 56de1a61-37d1-11e8-b647-7ec40e970e0c.
+2018-04-04T06:28:07.994920Z 0 [Warning] Gtid table is not ready to be used. Table &#39;mysql.gtid_executed&#39; cannot be opened.
+2018-04-04T06:28:07.999044Z 1 [Note] A temporary password is generated for root@localhost: 1NSRjqXdTd!&amp;</code></p>
+<p><strong>配置成功</strong></p>
+<p><strong>需要注意的是， “1NSRjqXdTd!&amp;”是自动生成的密码，请记录下来。</strong></p>
+<hr>
+<h2 id="4-3-启动mysql"><a href="#4-3-启动mysql" class="headerlink" title="4.3 启动mysql"></a>4.3 启动mysql</h2><p>执行：</p>
+<p><code>./mysqld --user=root &amp;</code></p>
+<p><strong>启动成功</strong></p>
+<p>至此可以在终端执行 ps -aux | grep mysql 来查看mysql的pid。</p>
+<h2 id="4-4-另外一种启动方式（未完结）："><a href="#4-4-另外一种启动方式（未完结）：" class="headerlink" title="4.4 另外一种启动方式（未完结）："></a>4.4 另外一种启动方式（未完结）：</h2><p>网上诸多教程中，是通过执行./support-files/mysql.server start来启动mysql，但是会出现大名鼎鼎的<strong>The server quit without updating PID file</strong>错误。</p>
+<p>例如，执行：</p>
+<p><code>./support-files/mysql.server start</code></p>
+<p>则显示信息：<br>Starting MySQL.Logging to ‘/usr/local/arm/mysql/data/Embedsky.err’.<br> ERROR! The server quit without updating PID file (/usr/local/arm/mysql/data/Embedsky.pid).</p>
+<p>解决办法可以参考参考：<br><a href="https://www.cnblogs.com/ivictor/p/6846017.html" target="_blank" rel="external">https://www.cnblogs.com/ivictor/p/6846017.html</a></p>
+<p>我在执行./mysqld –user=root &amp;成功的前提下，修改support_files文件中的mysql.server<br>将开始的basedir=和datadir=修改为：</p>
+<p><code>basedir=/usr/local/arm/mysql
+datadir=/usr/local/arm/mysql/data</code></p>
+<p>后，执行./support-files/mysql.server start 运行成功。。。</p>
+<p>具体之问题下次再分析吧。</p>
+<p><strong>至此arm版的mysql移植完成。</strong></p>
+<hr>
+<h1 id="五、一些其他问题"><a href="#五、一些其他问题" class="headerlink" title="五、一些其他问题"></a>五、一些其他问题</h1><h2 id="5-1-登陆mysql："><a href="#5-1-登陆mysql：" class="headerlink" title="5.1 登陆mysql："></a>5.1 登陆mysql：</h2><p>执行：<br><code>./mysql -u root –p</code><br>显示</p>
+<p>`<br>Welcome to the MySQL monitor.  Commands end with ; or \g.<br>Your MySQL connection id is 2<br>Server version: 5.7.21</p>
+<p>Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</p>
+<p>Oracle is a registered trademark of Oracle Corporation and/or its<br>affiliates. Other names may be trademarks of their respective<br>owners.</p>
+<p>No entry for terminal type “cygwin”;<br>using dumb terminal settings.<br>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+<p>mysql&gt;<br>`</p>
+<p>进入mysql成功。</p>
+<h2 id="5-2-更改默认密码，尚未解决。"><a href="#5-2-更改默认密码，尚未解决。" class="headerlink" title="5.2 更改默认密码，尚未解决。"></a>5.2 更改默认密码，尚未解决。</h2><p>参考：<a href="https://blog.csdn.net/lyflower/article/details/6137021" target="_blank" rel="external">https://blog.csdn.net/lyflower/article/details/6137021</a><br>目前尚未能够有效更改密码</p>
+<h2 id="5-3-添加软连接"><a href="#5-3-添加软连接" class="headerlink" title="5.3 添加软连接"></a>5.3 添加软连接</h2><p>ln -s /usr/local/arm/mysql/bin/mysql /usr/bin </p>
+<p>ln -s /usr/local/arm/mysql/bin/mysqldump /usr/bin </p>
+<p>ln -s /usr/local/arm/mysql/bin/mysqladmin /usr/bin </p>
+<p>ln -s /usr/local/arm/mysql/lib/libmysqlclient.so.20 /lib </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/交叉编译/" rel="tag"># 交叉编译</a>
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/iMX6Q/" rel="tag"># iMX6Q</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/07/Markdown文件编写/" rel="next" title="Markdown文件编写">
+                <i class="fa fa-chevron-left"></i> Markdown文件编写
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">velarn</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、编译前准备"><span class="nav-number">1.</span> <span class="nav-text">一、编译前准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要参考："><span class="nav-number">1.1.</span> <span class="nav-text">主要参考：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-下载mysql源码："><span class="nav-number">1.2.</span> <span class="nav-text">1.1 下载mysql源码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-下载boost源码："><span class="nav-number">1.3.</span> <span class="nav-text">1.2 下载boost源码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-下载ncurses源码："><span class="nav-number">1.4.</span> <span class="nav-text">1.3 下载ncurses源码：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、编译PC版本mysql"><span class="nav-number">2.</span> <span class="nav-text">二、编译PC版本mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-解压源码至mysql-5-7-21-pc并编译"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 解压源码至mysql-5.7.21-pc并编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在mysql-5-7-21-pc目录下执行："><span class="nav-number">2.1.1.</span> <span class="nav-text">在mysql-5.7.21-pc目录下执行：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#报错-“No-CMAKE-CXX-COMPILER-could-be-found-”："><span class="nav-number">2.1.1.1.</span> <span class="nav-text">报错 “No CMAKE_CXX_COMPILER could be found. ”：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法："><span class="nav-number">2.1.1.2.</span> <span class="nav-text">解决方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">2.1.1.3.</span> <span class="nav-text">参考：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再次执行cmake带参数命令"><span class="nav-number">2.1.2.</span> <span class="nav-text">再次执行cmake带参数命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#报错-“找不到curses”："><span class="nav-number">2.1.2.1.</span> <span class="nav-text">报错 “找不到curses”：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法：-1"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">解决方法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再次执行cmake带参数命令-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">再次执行cmake带参数命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-make"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 make</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、编译arm版本mysql"><span class="nav-number">3.</span> <span class="nav-text">三、编译arm版本mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-交叉编译ncurses"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 交叉编译ncurses</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#遇到问题："><span class="nav-number">3.1.0.1.</span> <span class="nav-text">遇到问题：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法：添加CPPFLAGS-P选项"><span class="nav-number">3.1.0.2.</span> <span class="nav-text">解决方法：添加CPPFLAGS=-P选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考：-1"><span class="nav-number">3.1.0.3.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-CMAKE"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 CMAKE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-make"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 make</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-make时可能出现的错误"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 make时可能出现的错误</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一类：ncurses文件的头文件包含路径问题"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">第一类：ncurses文件的头文件包含路径问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#出现错误："><span class="nav-number">3.3.1.1.1.</span> <span class="nav-text">出现错误：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二类：用于测试的文件不能执行"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">第二类：用于测试的文件不能执行</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#make时，错误表现为："><span class="nav-number">3.3.1.2.1.</span> <span class="nav-text">make时，错误表现为：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三类：Unsupported-platform错误"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">第三类：Unsupported platform错误</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-make-install"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 make install</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、部署到目标arm板"><span class="nav-number">4.</span> <span class="nav-text">四、部署到目标arm板</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-拷贝文件："><span class="nav-number">4.1.</span> <span class="nav-text">4.1 拷贝文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-初始化mysql"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 初始化mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-启动mysql"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 启动mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-另外一种启动方式（未完结）："><span class="nav-number">4.4.</span> <span class="nav-text">4.4 另外一种启动方式（未完结）：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、一些其他问题"><span class="nav-number">5.</span> <span class="nav-text">五、一些其他问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-登陆mysql："><span class="nav-number">5.1.</span> <span class="nav-text">5.1 登陆mysql：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-更改默认密码，尚未解决。"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 更改默认密码，尚未解决。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-添加软连接"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 添加软连接</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">velarn</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
