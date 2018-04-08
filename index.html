@@ -127,6 +127,15 @@
 
 
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '117113067', 'auto');
+  ga('send', 'pageview');
+</script>
+
 
 
 
@@ -258,7 +267,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/08/交叉编译MySQL/" itemprop="url">交叉编译MySQL</a></h1>
+                <a class="post-title-link" href="/2018/04/08/交叉编译MySQL/" itemprop="url">为天嵌E9交叉编译MySQL</a></h1>
         
 
         <div class="post-meta">
@@ -331,18 +340,221 @@
 
       
         
-          <h1 id="1-编译前准备"><a href="#1-编译前准备" class="headerlink" title="1 编译前准备"></a>1 编译前准备</h1><h2 id="1-1-主要参考："><a href="#1-1-主要参考：" class="headerlink" title="1.1 主要参考："></a>1.1 主要参考：</h2><p><a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">https://blog.csdn.net/fhyocean/article/details/74960005</a></p>
-<h2 id="1-2-下载mysql源码："><a href="#1-2-下载mysql源码：" class="headerlink" title="1.2 下载mysql源码："></a>1.2 下载mysql源码：</h2><p><a href="https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz" target="_blank" rel="external">https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz</a></p>
-<h2 id="1-3-下载boost源码："><a href="#1-3-下载boost源码：" class="headerlink" title="1.3 下载boost源码："></a>1.3 下载boost源码：</h2><p><a href="https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="external">https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></p>
-<h2 id="1-4-下载ncurses源码："><a href="#1-4-下载ncurses源码：" class="headerlink" title="1.4 下载ncurses源码："></a>1.4 下载ncurses源码：</h2><p><a href="https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz" target="_blank" rel="external">https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz</a> </p>
-<p><strong>注意：5.7.21版本mysql对应的boost版本是1.59.0</strong> </p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/08/交叉编译MySQL/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h2 id="为天嵌E9交叉编译MySQL"><a href="#为天嵌E9交叉编译MySQL" class="headerlink" title="为天嵌E9交叉编译MySQL"></a>为天嵌E9交叉编译MySQL</h2><p>问题交流就到github上写issues得了。</p>
+<p><a href="https://github.com/velarn/CrossCompliteArmMysql/issues" target="_blank" rel="external">传送门</a></p>
+<h1 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h1><ol>
+<li>硬件平台：天嵌E9-V3 iMXQ</li>
+<li>交叉编译器版本：arm-none-linux-gnueabihf</li>
+<li>MySql版本：5.7.21</li>
+<li>上位机版本：Ubuntu 17.04</li>
+</ol>
+<h1 id="编译前准备"><a href="#编译前准备" class="headerlink" title="编译前准备"></a>编译前准备</h1><h2 id="1-1-主要参考："><a href="#1-1-主要参考：" class="headerlink" title="1.1:主要参考："></a>1.1:主要参考：</h2><p><a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">https://blog.csdn.net/fhyocean/article/details/74960005</a></p>
+<h2 id="1-2-下载mysql源码："><a href="#1-2-下载mysql源码：" class="headerlink" title="1.2:下载mysql源码："></a>1.2:下载mysql源码：</h2><p><a href="https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz" target="_blank" rel="external">https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz</a></p>
+<h2 id="1-3-下载boost源码："><a href="#1-3-下载boost源码：" class="headerlink" title="1.3:下载boost源码："></a>1.3:下载boost源码：</h2><p><a href="https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="external">https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></p>
+<h2 id="1-4-下载ncurses源码："><a href="#1-4-下载ncurses源码：" class="headerlink" title="1.4:下载ncurses源码："></a>1.4:下载ncurses源码：</h2><p><a href="https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz" target="_blank" rel="external">https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz</a> </p>
+<p><strong>注意：5.7.21版本mysql对应的boost版本是1.59.0</strong>  </p>
+<h1 id="编译pc版本mysql"><a href="#编译pc版本mysql" class="headerlink" title="编译pc版本mysql"></a>编译pc版本mysql</h1><h2 id="2-1-解压源码至mysql-5-7-21-pc并编译"><a href="#2-1-解压源码至mysql-5-7-21-pc并编译" class="headerlink" title="2.1:解压源码至mysql-5.7.21-pc并编译"></a>2.1:解压源码至mysql-5.7.21-pc并编译</h2><h3 id="2-1-1-执行带参数camke命令"><a href="#2-1-1-执行带参数camke命令" class="headerlink" title="2.1.1:执行带参数camke命令"></a>2.1.1:执行带参数camke命令</h3><p>在mysql-5.7.21-pc目录下执行： </p>
+<p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/home/velarn/work/mysql/build/ -DMYSQL_DATADIR=/home/velarn/work/mysql/build/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0</code></p>
+<p><strong>编译选项对应说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> -DCMAKE_INSTALL_PREFIX</td>
+<td>mysql安装目录  </td>
+</tr>
+<tr>
+<td> -DMYSQL_DATADIR</td>
+<td>mysql数据库的安装目录  </td>
+</tr>
+<tr>
+<td> -DDEFAULT_CHARSET</td>
+<td>使用utf8字符  </td>
+</tr>
+<tr>
+<td> -DDEFAULT_COLLATION</td>
+<td>校验字符  </td>
+</tr>
+<tr>
+<td> -DEXTRA_CHARSETS</td>
+<td>安装所有扩展字符集  </td>
+</tr>
+<tr>
+<td> -DENABLED_LOCAL_INFILE</td>
+<td>允许从本地导入数据  </td>
+</tr>
+<tr>
+<td> -DWITH_BOOST</td>
+<td>Boost库的头文件路径（mysql5.7.18安装需要boost库支持）  </td>
+</tr>
+</tbody>
+</table>
+<p><strong>报错 “No CMAKE_CXX_COMPILER could be found. ”：</strong></p>
+<blockquote>
+<p>No CMAKE_CXX_COMPILER could be found.<br>Tell CMake where to find the compiler by setting either the environment<br>variable “CXX” or the CMake cache entry CMAKE_CXX_COMPILER to the full path<br>to the compiler, or to the compiler name if it is in the PATH.</p>
+</blockquote>
+<p><strong>解决方法：</strong><br>sudo apt-get update<br>sudo apt-get install -y build-essential</p>
+<p><strong>参考：</strong><br><a href="https://blog.csdn.net/xx352890098/article/details/78819852" target="_blank" rel="external">https://blog.csdn.net/xx352890098/article/details/78819852</a></p>
+<h3 id="2-1-2-再次执行cmake带参数命令"><a href="#2-1-2-再次执行cmake带参数命令" class="headerlink" title="2.1.2:再次执行cmake带参数命令"></a>2.1.2:再次执行cmake带参数命令</h3><p><strong>报错 “找不到curses”：</strong></p>
+<p><code>找不到curses</code></p>
+<p><strong>解决方法：</strong></p>
+<p>sudo apt install libncurses5-dev</p>
+<h3 id="2-1-3-再次执行cmake带参数命令"><a href="#2-1-3-再次执行cmake带参数命令" class="headerlink" title="2.1.3:再次执行cmake带参数命令"></a>2.1.3:再次执行cmake带参数命令</h3><h2 id="2-2-make"><a href="#2-2-make" class="headerlink" title="2.2:make"></a>2.2:make</h2><p>cmake没有错误的情况下，执行make -j4开始编译。<br>无需make install。</p>
+<p><strong>编译pc版本的目的</strong><br>为了产生：</p>
+<ol>
+<li>extra/comp_err </li>
+<li>scripts/comp_sql </li>
+<li>sql/gen_lex_hash </li>
+<li>sql/gen_lex_token </li>
+<li>extra/protobuf/protoc </li>
+<li>libmysql/libmysql_api_test </li>
+</ol>
+<p>这六个文件，这6个文件在编译arm版本的mysql时需要替换过去并touch。否则arm版本不能编译通过。</p>
+<p><strong>至此pc版本mysql编译完成</strong></p>
+<h1 id="编译arm版本mysql"><a href="#编译arm版本mysql" class="headerlink" title="编译arm版本mysql"></a>编译arm版本mysql</h1><h2 id="3-1-交叉编译ncurses"><a href="#3-1-交叉编译ncurses" class="headerlink" title="3.1:交叉编译ncurses"></a>3.1:交叉编译ncurses</h2><p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++</code></p>
+<p><strong>遇到问题：</strong></p>
+<blockquote>
+<p>In file included from ./curses.priv.h:325:0,<br>                from ../ncurses/lib_gen.c:19:_24273.c:843:15: error: expected ‘)’ before ‘int’<br>../include/curses.h:1631:56: note: in definition of macro ‘mouse_trafo’ #define mouse_trafo(y,x,to_screen) wmouse_trafo(dscr,y,x,to_screen)</p>
+</blockquote>
+<p><strong>解决方法：</strong></p>
+<p>添加<strong>CPPFLAGS=-P</strong>选项  </p>
+<p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++ CPPFLAGS=-P</code></p>
+<p><strong>参考：</strong><br><a href="https://stackoverflow.com/questions/37475222/ncurses-6-0-compilation-error-error-expected-before-int/37475223" target="_blank" rel="external">https://stackoverflow.com/questions/37475222/ncurses-6-0-compilation-error-error-expected-before-int/37475223</a></p>
+<h2 id="3-2-执行CMAKE"><a href="#3-2-执行CMAKE" class="headerlink" title="3.2:执行CMAKE"></a>3.2:执行CMAKE</h2><p>将mysql源码压缩包解压至mysql-5.7.21-arm文件夹并执行:</p>
+<p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/usr/local/arm/mysql -DMYSQL_DATADIR=/usr/local/arm/mysql/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0 -DCURSES_INCLUDE_PATH=/home/velarn/work/ncurses/build/include/ncurses -DCURSES_LIBRARY=/home/velarn/work/ncurses/build/lib/libncurses.a</code></p>
+<p><strong>需要注意的是</strong></p>
+<p><code>-DCMAKE_INSTALL_PREFIX=/usr/local/arm/mysql
+-DMYSQL_DATADIR=/usr/local/arm/mysql/data</code></p>
+<p><strong>这两项会被填充到最终生成的mysql.server文件中，因此在arm环境中，务必使mysql所在文件夹与此目录相同。否则在arm端运行mysql时会出现问题。</strong></p>
+<h2 id="3-3-执行make"><a href="#3-3-执行make" class="headerlink" title="3.3:执行make"></a>3.3:执行make</h2><p>cmake无错误，执行make</p>
+<h3 id="3-3-1-make时可能出现的错误"><a href="#3-3-1-make时可能出现的错误" class="headerlink" title="3.3.1:make时可能出现的错误"></a>3.3.1:make时可能出现的错误</h3><p> <strong>第一类：</strong> ncurses文件的头文件包含路径问题</p>
+<p> <strong>第二类：</strong> 用于测试的文件不能执行 </p>
+<p> <strong>第三类：</strong> Unsupported platform错误</p>
+<p>下面简单记述一番。</p>
+<h4 id="第一类：ncurses文件的头文件包含路径问题"><a href="#第一类：ncurses文件的头文件包含路径问题" class="headerlink" title="第一类：ncurses文件的头文件包含路径问题"></a>第一类：ncurses文件的头文件包含路径问题</h4><p><strong>出现错误：</strong></p>
+<blockquote>
+<p>In file included from /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/cmd-line-utils/libedit/terminal.c:60:0:<br>/home/velarn/work/ncurses/build/include/ncurses/curses.h:60:33: fatal error: ncurses/ncurses_dll.h: No such file or directory<br>compilation terminated.<br>cmd-line-utils/libedit/CMakeFiles/edit.dir/build.make:602: recipe for target ‘cmd-line-utils/libedit/CMakeFiles/edit.dir/terminal.c.o’ failed<br>make[2]: <strong><em> [cmd-line-utils/libedit/CMakeFiles/edit.dir/terminal.c.o] Error 1<br>CMakeFiles/Makefile2:457: recipe for target ‘cmd-line-utils/libedit/CMakeFiles/edit.dir/all’ failed<br>make[1]: </em></strong> [cmd-line-utils/libedit/CMakeFiles/edit.dir/all] Error 2<br>Makefile:162: recipe for target ‘all’ failed<br>make: <em>*</em> [all] Error 2 </p>
+</blockquote>
+<p><strong>解决方法：</strong><br>把/home/velarn/work/ncurses/build//include/ncurses/curses.h头文件的第60行的 </p>
+<blockquote>
+<p>#include &lt;nucrses/ncursed_dll.h&gt;  </p>
+</blockquote>
+<p>改为</p>
+<blockquote>
+<p>#include “/home/velarn/work/ncurses/build/include/ncurses/ncurses_dll.h”  </p>
+</blockquote>
+<p>此外还需要更改<strong>三处</strong>地方，恕不详加列展，具体问题可参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。</p>
+<p><strong>以上解决curses库头文件关联问题。</strong></p>
+<h4 id="第二类：用于测试的文件不能执行"><a href="#第二类：用于测试的文件不能执行" class="headerlink" title="第二类：用于测试的文件不能执行"></a>第二类：用于测试的文件不能执行</h4><p><strong>make时，出现错误：</strong></p>
+<blockquote>
+<p>./comp_err: 1: ./comp_err: Syntax error: word unexpected (expecting “)”)<br>extra/CMakeFiles/GenError.dir/build.make:63: recipe for target ‘include/mysqld_error.h’ failed<br>make[2]: <strong><em> [include/mysqld_error.h] Error 2<br>CMakeFiles/Makefile2:6410: recipe for target ‘extra/CMakeFiles/GenError.dir/all’ failed<br>make[1]: </em></strong> [extra/CMakeFiles/GenError.dir/all] Error 2<br>Makefile:162: recipe for target ‘all’ failed<br>make: <em>*</em> [all] Error 2 </p>
+<p>./libmysql_api_test: 1: ./libmysql_api_test: Syntax error: word unexpected (expecting “)”)<br>libmysql/CMakeFiles/libmysql_api_test.dir/build.make:95: recipe for target ‘libmysql/libmysql_api_test’ failed<br>make[2]: <strong><em> [libmysql/libmysql_api_test] Error 2<br>make[2]: </em></strong> Deleting file ‘libmysql/libmysql_api_test’<br>CMakeFiles/Makefile2:1431: recipe for target ‘libmysql/CMakeFiles/libmysql_api_test.dir/all’ failed<br>make[1]: <strong><em> [libmysql/CMakeFiles/libmysql_api_test.dir/all] Error 2<br>Makefile:162: recipe for target ‘all’ failed<br>make: </em></strong> [all] Error 2 </p>
+</blockquote>
+<p>以及<strong>comp_sql、gen_lex_hash、gen_lex_token、protoc</strong>四个文件。</p>
+<p><strong>解决方法：</strong><br>这类问题的解决方法是，把方才编译好的mysql-5.7.21-PC目录下对应的文件拷贝到mysql-5.7.21-arm相同目录下，替换掉该文件之后首先要在终端下执行touch该文件以更新该的时间（这个是必需的），然后才能继续make。</p>
+<h4 id="第三类：Unsupported-platform错误"><a href="#第三类：Unsupported-platform错误" class="headerlink" title="第三类：Unsupported platform错误"></a>第三类：Unsupported platform错误</h4><p>出现错误：</p>
+<blockquote>
+<p>error: #error “Unsupported platform”</p>
+</blockquote>
+<p>此问题之详细描述请参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。</p>
+<p>主要解决思想就是修改os0atomic.h和os0atomic.ic两个文件的一些宏定义。</p>
+<h2 id="3-4-执行make-install"><a href="#3-4-执行make-install" class="headerlink" title="3.4:执行make-install"></a>3.4:执行make-install</h2><p>执行make并在无错误后，执行完make install，之后会在/usr/local/arm/目录下生成mysql文件夹。</p>
+<h2 id="3-5-需要拷贝并touch的文件列表"><a href="#3-5-需要拷贝并touch的文件列表" class="headerlink" title="3.5:需要拷贝并touch的文件列表"></a>3.5:需要拷贝并touch的文件列表</h2><blockquote>
+<p>$ cp extra/comp_err /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/<br>$ cp scripts/comp_sql /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/scripts/<br>$ cp sql/gen_lex_hash /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/<br>$ cp sql/gen_lex_token /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/<br>$ cp extra/protobuf/protoc /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/protobuf/<br>$ cp libmysql/libmysql_api_test /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/libmysql/    </p>
+</blockquote>
+<p><strong>至此ARM版的mysql交叉编译完成。</strong></p>
+<h1 id="部署到目标arm板"><a href="#部署到目标arm板" class="headerlink" title="部署到目标arm板"></a>部署到目标arm板</h1><h2 id="4-1-拷贝文件："><a href="#4-1-拷贝文件：" class="headerlink" title="4.1:拷贝文件："></a>4.1:拷贝文件：</h2><ol>
+<li>将/usr/local下的arm目录打包压缩并上传至目标机器的/usr/local/中并解压.</li>
+<li>在/usr/local/arm/mysql目录下创建data文件夹。</li>
+</ol>
+<h2 id="4-2-初始化mysql"><a href="#4-2-初始化mysql" class="headerlink" title="4.2:初始化mysql"></a>4.2:初始化mysql</h2><p>执行：（注意目录）</p>
+<p><code>./mysqld --user=root --basedir=/usr/local/arm/mysql --datadir=/usr/local/arm/mysql/data --initialize</code></p>
+<p>以初始化mysql环境。</p>
+<p>显示信息：</p>
+<blockquote>
+<p>2018-04-04T06:28:01.660078Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use –explicit_defaults_for_timestamp server option (see documentation for more details).<br>2018-04-04T06:28:01.789800Z 0 [Warning] InnoDB: MySQL was built without a memory barrier capability on this architecture, which might allow a mutex/rw_lock violation under high thread concurrency. This may cause a hang.<br>2018-04-04T06:28:07.048011Z 0 [Warning] InnoDB: New log files created, LSN=45790<br>2018-04-04T06:28:07.821112Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.<br>2018-04-04T06:28:07.988962Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 56de1a61-37d1-11e8-b647-7ec40e970e0c.<br>2018-04-04T06:28:07.994920Z 0 [Warning] Gtid table is not ready to be used. Table ‘mysql.gtid_executed’ cannot be opened.<br>2018-04-04T06:28:07.999044Z 1 [Note] A temporary password is generated for root@localhost: 1NSRjqXdTd!&amp;</p>
+</blockquote>
+<p><strong>配置成功</strong></p>
+<p><strong>需要注意的是， “1NSRjqXdTd!&amp;”是自动生成的密码，请记录下来。</strong></p>
+<h2 id="4-3-启动mysql"><a href="#4-3-启动mysql" class="headerlink" title="4.3:启动mysql"></a>4.3:启动mysql</h2><p>执行：</p>
+<p><code>./mysqld --user=root &amp;</code></p>
+<p><strong>启动成功</strong></p>
+<p>至此可以在终端执行 ps -aux | grep mysql 来查看mysql的pid。</p>
+<h2 id="4-4-另外一种启动方式："><a href="#4-4-另外一种启动方式：" class="headerlink" title="4.4:另外一种启动方式："></a>4.4:另外一种启动方式：</h2><p>网上诸多教程中，是通过执行./support-files/mysql.server start来启动mysql，但是会出现大名鼎鼎的<strong>The server quit without updating PID file</strong>错误。</p>
+<p>例如，执行：</p>
+<p><code>./support-files/mysql.server start</code></p>
+<p>则显示信息：</p>
+<blockquote>
+<p>Starting MySQL.Logging to ‘/usr/local/arm/mysql/data/Embedsky.err’.<br>ERROR! The server quit without updating PID file (/usr/local/arm/mysql/data/Embedsky.pid).</p>
+</blockquote>
+<p>可以参考的链接：<br><a href="https://www.cnblogs.com/ivictor/p/6846017.html" target="_blank" rel="external">https://www.cnblogs.com/ivictor/p/6846017.html</a></p>
+<p><del>我在执行./mysqld –user=root &amp;成功的前提下，修改support_files文件中的mysql.server</del></p>
+<p><del>将开始的basedir=和datadir=修改为：</del></p>
+<blockquote>
+<p><del>basedir=/usr/local/arm/mysql</del><br><del>datadir=/usr/local/arm/mysql/data</del></p>
+</blockquote>
+<p><del>后，执行./support-files/mysql.server start 运行成功。。。</del></p>
+<p><del>具体之问题下次再分析吧。</del></p>
+<p>嗯，现在把解决的过程记录一下：</p>
+<p>分析mysql.server源码可得知，在使用“<strong>./mysql.server start</strong>”时，脚本会调用mysqld_safe这个可执行脚本，</p>
+<blockquote>
+<p>…</p>
+<p>#Give extra arguments to mysqld with the my.cnf file. This script</p>
+<p>#may be overwritten at next upgrade.<br><strong>$bindir/mysqld_safe</strong> –datadir=”$datadir” –pid-file=”$mysqld_pid_file_path” $other_args &gt;/dev/null &amp;<br>wait_for_pid created “$!” “$mysqld_pid_file_path”; return_value=$?&gt;# Make lock for RedHat / SuSE<br>…</p>
+</blockquote>
+<p>也就是说，在执行wait_for_pid前先调用mysqld_safe。<br>wait_for_pid返回错误肯定是mysqld_safe没起来嘛。于是乎手动测试了一下:</p>
+<blockquote>
+<p>../bin/mysqld_safe –basedir=/usr/local/arm/mysql –datadir=/usr/local/arm/mysql/data –pid-file=/usr/local /arm/mysql/data/Embedsky.pid</p>
+</blockquote>
+<p>返回：</p>
+<blockquote>
+<p>2018-04-08T06:33:42.158958Z mysqld_safe Logging to ‘/usr/local/arm/mysql/data/Embedsky.err’.<br>2018-04-08T06:33:42.281441Z mysqld_safe Starting mysqld daemon with databases from /usr/local/arm/mysql/data<br>2018-04-08T06:33:42.911509Z mysqld_safe mysqld from pid file /usr/local/arm/mysql/data/Embedsky.pid ended</p>
+</blockquote>
+<p>然后查看了以下线程运行，发现mysql没起来。</p>
+<p>在网上找了找，都是说没权限创建pid文件。</p>
+<p>例如：<a href="http://d-prototype.com/archives/3793" target="_blank" rel="external">这个</a></p>
+<p>但是我没找到mysql的log文件，于是乎我就在/etc文件夹下建了一个my.cnf，内容如下：</p>
+<blockquote>
+<p>[mysqld_safe]<br>basedir=/usr/local/arm/mysql/<br>datadir=/usr/local/arm/mysql/data<br>pid-file=/usr/local/arm/mysql/data/Embedsky.pid<br>log-error=/usr/local/arm/mysql/data/mysqld_safe.log</p>
+</blockquote>
+<p>然后测试了一下，还是不行。</p>
+<p>那把用户加上呢？</p>
+<blockquote>
+<p>[mysqld_safe]<br>basedir=/usr/local/arm/mysql/<br>datadir=/usr/local/arm/mysql/data<br>pid-file=/usr/local/arm/mysql/data/Embedsky.pid<br>log-error=/usr/local/arm/mysql/data/mysqld_safe.log<br>user=root</p>
+</blockquote>
+<p><strong>成功启动了。。。</strong></p>
+<p>原来是mysqld在默认的情况下是以mysql用户启动，由于在arm上无法创建其他用户，因此在执行命令行时，我用的都是root，比如：</p>
+<blockquote>
+<p>./mysqld –user=root …</p>
+</blockquote>
+<p>所以，加上权限就行了。</p>
+<p><strong>至此arm版的mysql移植完成。</strong></p>
+<h2 id="4-5-添加开机启动，待续。"><a href="#4-5-添加开机启动，待续。" class="headerlink" title="4.5:添加开机启动，待续。"></a>4.5:添加开机启动，待续。</h2><h1 id="一些其他操作"><a href="#一些其他操作" class="headerlink" title="一些其他操作"></a>一些其他操作</h1><h2 id="5-1-登陆mysql："><a href="#5-1-登陆mysql：" class="headerlink" title="5.1:登陆mysql："></a>5.1:登陆mysql：</h2><p>执行：<br><code>./mysql -u root –p</code><br>显示</p>
+<blockquote>
+<p>Welcome to the MySQL monitor.  Commands end with ; or \g.<br>Your MySQL connection id is 2<br>Server version: 5.7.21&gt;</p>
+<p>Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.&gt;</p>
+<p>Oracle is a registered trademark of Oracle Corporation and/or its<br>affiliates. Other names may be trademarks of their respective<br>owners.&gt;</p>
+<p>No entry for terminal type “cygwin”;<br>using dumb terminal settings.<br>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.&gt;</p>
+<p>mysql&gt;</p>
+</blockquote>
+<p>进入mysql成功。</p>
+<h2 id="5-2-更改默认密码"><a href="#5-2-更改默认密码" class="headerlink" title="5.2:更改默认密码"></a>5.2:更改默认密码</h2><p>使用安装时生成的随机密码登陆mysql:  </p>
+<p><code>mysqld -u root -p</code>  </p>
+<p>输入原始随机密码后，采用如下命令重设密码：  </p>
+<p><code>set password = password(&#39;123456&#39;);</code>  </p>
+<p><a href="https://www.jianshu.com/p/53ac2d55b279" target="_blank" rel="external">参考链接</a>  </p>
+<h2 id="5-3-添加软连接"><a href="#5-3-添加软连接" class="headerlink" title="5.3:添加软连接"></a>5.3:添加软连接</h2><p>ln -s /usr/local/arm/mysql/bin/mysql /usr/bin </p>
+<p>ln -s /usr/local/arm/mysql/bin/mysqldump /usr/bin </p>
+<p>ln -s /usr/local/arm/mysql/bin/mysqladmin /usr/bin </p>
+<p>ln -s /usr/local/arm/mysql/lib/libmysqlclient.so.20 /lib </p>
+
+          
         
       
     </div>
