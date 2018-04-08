@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="L.LB">
 <meta property="og:description" content="1 编译前准备1.1 主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.2 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.3 下载boost源码：https://jaist.dl.sourceforge.net/proj">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-08T04:40:47.608Z">
+<meta property="og:updated_time" content="2018-04-08T06:44:38.077Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="交叉编译MySQL">
 <meta name="twitter:description" content="1 编译前准备1.1 主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.2 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.3 下载boost源码：https://jaist.dl.sourceforge.net/proj">
@@ -469,21 +469,56 @@
 <p><code>./mysqld --user=root &amp;</code></p>
 <p><strong>启动成功</strong></p>
 <p>至此可以在终端执行 ps -aux | grep mysql 来查看mysql的pid。</p>
-<h2 id="4-4-另外一种启动方式（未完结）："><a href="#4-4-另外一种启动方式（未完结）：" class="headerlink" title="4.4 另外一种启动方式（未完结）："></a>4.4 另外一种启动方式（未完结）：</h2><p>网上诸多教程中，是通过执行./support-files/mysql.server start来启动mysql，但是会出现大名鼎鼎的<strong>The server quit without updating PID file</strong>错误。</p>
+<h2 id="4-4-另外一种启动方式："><a href="#4-4-另外一种启动方式：" class="headerlink" title="4.4 另外一种启动方式："></a>4.4 另外一种启动方式：</h2><p>网上诸多教程中，是通过执行./support-files/mysql.server start来启动mysql，但是会出现大名鼎鼎的<strong>The server quit without updating PID file</strong>错误。</p>
 <p>例如，执行：</p>
 <p><code>./support-files/mysql.server start</code></p>
 <p>则显示信息：</p>
 <blockquote>
 <p>Starting MySQL.Logging to ‘/usr/local/arm/mysql/data/Embedsky.err’.<br>ERROR! The server quit without updating PID file (/usr/local/arm/mysql/data/Embedsky.pid).</p>
 </blockquote>
-<p>解决办法可以参考：<br><a href="https://www.cnblogs.com/ivictor/p/6846017.html" target="_blank" rel="external">https://www.cnblogs.com/ivictor/p/6846017.html</a></p>
-<p>我在执行./mysqld –user=root &amp;成功的前提下，修改support_files文件中的mysql.server<br>将开始的basedir=和datadir=修改为：</p>
-<p><code>basedir=/usr/local/arm/mysql
-datadir=/usr/local/arm/mysql/data</code></p>
-<p>后，执行./support-files/mysql.server start 运行成功。。。</p>
-<p>具体之问题下次再分析吧。</p>
+<p>可以参考的链接：<br><a href="https://www.cnblogs.com/ivictor/p/6846017.html" target="_blank" rel="external">https://www.cnblogs.com/ivictor/p/6846017.html</a></p>
+<p><del>我在执行./mysqld –user=root &amp;成功的前提下，修改support_files文件中的mysql.server</del></p>
+<p><del>将开始的basedir=和datadir=修改为：</del></p>
+<blockquote>
+<p><del>basedir=/usr/local/arm/mysql</del><br><del>datadir=/usr/local/arm/mysql/data</del></p>
+</blockquote>
+<p><del>后，执行./support-files/mysql.server start 运行成功。。。</del></p>
+<p><del>具体之问题下次再分析吧。</del></p>
+<p>嗯，现在把解决的过程记录一下：</p>
+<p>分析mysql.server源码可得知，在使用“<strong>./mysql.server start</strong>”时，脚本会调用mysqld_safe这个可执行脚本，</p>
+<blockquote>
+<p>…</p>
+<p>#Give extra arguments to mysqld with the my.cnf file. This script</p>
+<p>#may be overwritten at next upgrade.<br><strong>$bindir/mysqld_safe</strong> –datadir=”$datadir” –pid-file=”$mysqld_pid_file_path” $other_args &gt;/dev/null &amp;<br>wait_for_pid created “$!” “$mysqld_pid_file_path”; return_value=$?&gt;# Make lock for RedHat / SuSE<br>…</p>
+</blockquote>
+<p>也就是说，在执行wait_for_pid前先调用mysqld_safe。<br>wait_for_pid返回错误肯定是mysqld_safe没起来嘛。于是乎手动测试了一下:</p>
+<blockquote>
+<p>../bin/mysqld_safe –basedir=/usr/local/arm/mysql –datadir=/usr/local/arm/mysql/data –pid-file=/usr/local /arm/mysql/data/Embedsky.pid</p>
+</blockquote>
+<p>返回：</p>
+<blockquote>
+<p>2018-04-08T06:33:42.158958Z mysqld_safe Logging to ‘/usr/local/arm/mysql/data/Embedsky.err’.<br>2018-04-08T06:33:42.281441Z mysqld_safe Starting mysqld daemon with databases from /usr/local/arm/mysql/data<br>2018-04-08T06:33:42.911509Z mysqld_safe mysqld from pid file /usr/local/arm/mysql/data/Embedsky.pid ended</p>
+</blockquote>
+<p>然后查看了以下线程运行，发现mysql没起来。</p>
+<p>在网上找了找，都是说没权限创建pid文件。</p>
+<p>例如：<a href="http://d-prototype.com/archives/3793" target="_blank" rel="external">这个</a></p>
+<p>但是我没找到mysql的log文件，于是乎我就在/etc文件夹下建了一个my.cnf，内容如下：</p>
+<blockquote>
+<p>[mysqld_safe]<br>basedir=/usr/local/arm/mysql/<br>datadir=/usr/local/arm/mysql/data<br>pid-file=/usr/local/arm/mysql/data/Embedsky.pid<br>log-error=/usr/local/arm/mysql/data/mysqld_safe.log</p>
+</blockquote>
+<p>然后测试了一下，还是不行。</p>
+<p>那把用户加上呢？</p>
+<blockquote>
+<p>[mysqld_safe]<br>basedir=/usr/local/arm/mysql/<br>datadir=/usr/local/arm/mysql/data<br>pid-file=/usr/local/arm/mysql/data/Embedsky.pid<br>log-error=/usr/local/arm/mysql/data/mysqld_safe.log<br>user=root</p>
+</blockquote>
+<p><strong>成功启动了。。。</strong></p>
+<p>原来是mysqld在默认的情况下是以mysql用户启动，由于在arm上无法创建其他用户，因此在执行命令行时，我用的都是root，比如：</p>
+<blockquote>
+<p>./mysqld –user=root …</p>
+</blockquote>
+<p>所以，加上权限就行了。</p>
 <p><strong>至此arm版的mysql移植完成。</strong></p>
-<h1 id="5-一些其他操作"><a href="#5-一些其他操作" class="headerlink" title="5 一些其他操作"></a>5 一些其他操作</h1><h2 id="5-1-登陆mysql："><a href="#5-1-登陆mysql：" class="headerlink" title="5.1 登陆mysql："></a>5.1 登陆mysql：</h2><p>执行：<br><code>./mysql -u root –p</code><br>显示</p>
+<h2 id="4-5-添加开机启动，待续。"><a href="#4-5-添加开机启动，待续。" class="headerlink" title="4.5 添加开机启动，待续。"></a>4.5 添加开机启动，待续。</h2><h1 id="5-一些其他操作"><a href="#5-一些其他操作" class="headerlink" title="5 一些其他操作"></a>5 一些其他操作</h1><h2 id="5-1-登陆mysql："><a href="#5-1-登陆mysql：" class="headerlink" title="5.1 登陆mysql："></a>5.1 登陆mysql：</h2><p>执行：<br><code>./mysql -u root –p</code><br>显示</p>
 <blockquote>
 <p>Welcome to the MySQL monitor.  Commands end with ; or \g.<br>Your MySQL connection id is 2<br>Server version: 5.7.21&gt;</p>
 <p>Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.&gt;</p>
@@ -677,7 +712,7 @@ datadir=/usr/local/arm/mysql/data</code></p>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-编译前准备"><span class="nav-text">1 编译前准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-主要参考："><span class="nav-text">1.1 主要参考：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-下载mysql源码："><span class="nav-text">1.2 下载mysql源码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-下载boost源码："><span class="nav-text">1.3 下载boost源码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-下载ncurses源码："><span class="nav-text">1.4 下载ncurses源码：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-编译PC版本mysql"><span class="nav-text">2 编译PC版本mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-解压源码至mysql-5-7-21-pc并编译"><span class="nav-text">2.1 解压源码至mysql-5.7.21-pc并编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-执行带参数camke命令"><span class="nav-text">2.1.1 执行带参数camke命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-再次执行cmake带参数命令"><span class="nav-text">2.1.2 再次执行cmake带参数命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-再次执行cmake带参数命令"><span class="nav-text">2.1.3 再次执行cmake带参数命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-make"><span class="nav-text">2.2 make</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-编译arm版本mysql"><span class="nav-text">3 编译arm版本mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-交叉编译ncurses"><span class="nav-text">3.1 交叉编译ncurses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-执行CMAKE"><span class="nav-text">3.2 执行CMAKE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-执行make"><span class="nav-text">3.3 执行make</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-make时可能出现的错误"><span class="nav-text">3.3.1 make时可能出现的错误</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一类：ncurses文件的头文件包含路径问题"><span class="nav-text">第一类：ncurses文件的头文件包含路径问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二类：用于测试的文件不能执行"><span class="nav-text">第二类：用于测试的文件不能执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三类：Unsupported-platform错误"><span class="nav-text">第三类：Unsupported platform错误</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-执行make-install"><span class="nav-text">3.4 执行make install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-需要拷贝并touch的文件列表"><span class="nav-text">3.5 需要拷贝并touch的文件列表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-部署到目标arm板"><span class="nav-text">4 部署到目标arm板</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-拷贝文件："><span class="nav-text">4.1 拷贝文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-初始化mysql"><span class="nav-text">4.2 初始化mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-启动mysql"><span class="nav-text">4.3 启动mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-另外一种启动方式（未完结）："><span class="nav-text">4.4 另外一种启动方式（未完结）：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-一些其他操作"><span class="nav-text">5 一些其他操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-登陆mysql："><span class="nav-text">5.1 登陆mysql：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-更改默认密码"><span class="nav-text">5.2 更改默认密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-添加软连接"><span class="nav-text">5.3 添加软连接</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-编译前准备"><span class="nav-text">1 编译前准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-主要参考："><span class="nav-text">1.1 主要参考：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-下载mysql源码："><span class="nav-text">1.2 下载mysql源码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-下载boost源码："><span class="nav-text">1.3 下载boost源码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-下载ncurses源码："><span class="nav-text">1.4 下载ncurses源码：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-编译PC版本mysql"><span class="nav-text">2 编译PC版本mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-解压源码至mysql-5-7-21-pc并编译"><span class="nav-text">2.1 解压源码至mysql-5.7.21-pc并编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-执行带参数camke命令"><span class="nav-text">2.1.1 执行带参数camke命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-再次执行cmake带参数命令"><span class="nav-text">2.1.2 再次执行cmake带参数命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-再次执行cmake带参数命令"><span class="nav-text">2.1.3 再次执行cmake带参数命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-make"><span class="nav-text">2.2 make</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-编译arm版本mysql"><span class="nav-text">3 编译arm版本mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-交叉编译ncurses"><span class="nav-text">3.1 交叉编译ncurses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-执行CMAKE"><span class="nav-text">3.2 执行CMAKE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-执行make"><span class="nav-text">3.3 执行make</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-make时可能出现的错误"><span class="nav-text">3.3.1 make时可能出现的错误</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一类：ncurses文件的头文件包含路径问题"><span class="nav-text">第一类：ncurses文件的头文件包含路径问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二类：用于测试的文件不能执行"><span class="nav-text">第二类：用于测试的文件不能执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三类：Unsupported-platform错误"><span class="nav-text">第三类：Unsupported platform错误</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-执行make-install"><span class="nav-text">3.4 执行make install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-需要拷贝并touch的文件列表"><span class="nav-text">3.5 需要拷贝并touch的文件列表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-部署到目标arm板"><span class="nav-text">4 部署到目标arm板</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-拷贝文件："><span class="nav-text">4.1 拷贝文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-初始化mysql"><span class="nav-text">4.2 初始化mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-启动mysql"><span class="nav-text">4.3 启动mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-另外一种启动方式："><span class="nav-text">4.4 另外一种启动方式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-添加开机启动，待续。"><span class="nav-text">4.5 添加开机启动，待续。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-一些其他操作"><span class="nav-text">5 一些其他操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-登陆mysql："><span class="nav-text">5.1 登陆mysql：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-更改默认密码"><span class="nav-text">5.2 更改默认密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-添加软连接"><span class="nav-text">5.3 添加软连接</span></a></li></ol></li></ol></div>
             
 
           </div>
