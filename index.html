@@ -341,20 +341,18 @@
       
         
           
-            <h2 id="为天嵌E9交叉编译MySQL"><a href="#为天嵌E9交叉编译MySQL" class="headerlink" title="为天嵌E9交叉编译MySQL"></a>为天嵌E9交叉编译MySQL</h2><p>问题交流就到github上写issues得了。</p>
-<p><a href="https://github.com/velarn/CrossCompliteArmMysql/issues" target="_blank" rel="external">传送门</a></p>
-<h1 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h1><ol>
+            <h1 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h1><ol>
 <li>硬件平台：天嵌E9-V3 iMXQ</li>
 <li>交叉编译器版本：arm-none-linux-gnueabihf</li>
 <li>MySql版本：5.7.21</li>
 <li>上位机版本：Ubuntu 17.04</li>
 </ol>
-<h1 id="编译前准备"><a href="#编译前准备" class="headerlink" title="编译前准备"></a>编译前准备</h1><h2 id="1-1-主要参考："><a href="#1-1-主要参考：" class="headerlink" title="1.1:主要参考："></a>1.1:主要参考：</h2><p><a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">https://blog.csdn.net/fhyocean/article/details/74960005</a></p>
-<h2 id="1-2-下载mysql源码："><a href="#1-2-下载mysql源码：" class="headerlink" title="1.2:下载mysql源码："></a>1.2:下载mysql源码：</h2><p><a href="https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz" target="_blank" rel="external">https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz</a></p>
-<h2 id="1-3-下载boost源码："><a href="#1-3-下载boost源码：" class="headerlink" title="1.3:下载boost源码："></a>1.3:下载boost源码：</h2><p><a href="https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="external">https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></p>
-<h2 id="1-4-下载ncurses源码："><a href="#1-4-下载ncurses源码：" class="headerlink" title="1.4:下载ncurses源码："></a>1.4:下载ncurses源码：</h2><p><a href="https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz" target="_blank" rel="external">https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz</a> </p>
+<h1 id="编译前准备"><a href="#编译前准备" class="headerlink" title="编译前准备"></a>编译前准备</h1><h2 id="主要参考："><a href="#主要参考：" class="headerlink" title="主要参考："></a>主要参考：</h2><p><a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">https://blog.csdn.net/fhyocean/article/details/74960005</a></p>
+<h2 id="下载mysql源码："><a href="#下载mysql源码：" class="headerlink" title="下载mysql源码："></a>下载mysql源码：</h2><p><a href="https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz" target="_blank" rel="external">https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz</a></p>
+<h2 id="下载boost源码："><a href="#下载boost源码：" class="headerlink" title="下载boost源码："></a>下载boost源码：</h2><p><a href="https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz" target="_blank" rel="external">https://jaist.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></p>
+<h2 id="下载ncurses源码："><a href="#下载ncurses源码：" class="headerlink" title="下载ncurses源码："></a>下载ncurses源码：</h2><p><a href="https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz" target="_blank" rel="external">https://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz</a> </p>
 <p><strong>注意：5.7.21版本mysql对应的boost版本是1.59.0</strong>  </p>
-<h1 id="编译pc版本mysql"><a href="#编译pc版本mysql" class="headerlink" title="编译pc版本mysql"></a>编译pc版本mysql</h1><h2 id="2-1-解压源码至mysql-5-7-21-pc并编译"><a href="#2-1-解压源码至mysql-5-7-21-pc并编译" class="headerlink" title="2.1:解压源码至mysql-5.7.21-pc并编译"></a>2.1:解压源码至mysql-5.7.21-pc并编译</h2><h3 id="2-1-1-执行带参数camke命令"><a href="#2-1-1-执行带参数camke命令" class="headerlink" title="2.1.1:执行带参数camke命令"></a>2.1.1:执行带参数camke命令</h3><p>在mysql-5.7.21-pc目录下执行： </p>
+<h1 id="编译pc版本mysql"><a href="#编译pc版本mysql" class="headerlink" title="编译pc版本mysql"></a>编译pc版本mysql</h1><h2 id="解压源码至mysql-5-7-21-pc并编译"><a href="#解压源码至mysql-5-7-21-pc并编译" class="headerlink" title="解压源码至mysql-5.7.21-pc并编译"></a>解压源码至mysql-5.7.21-pc并编译</h2><h3 id="执行带参数camke命令"><a href="#执行带参数camke命令" class="headerlink" title="执行带参数camke命令"></a>执行带参数camke命令</h3><p>在mysql-5.7.21-pc目录下执行： </p>
 <p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/home/velarn/work/mysql/build/ -DMYSQL_DATADIR=/home/velarn/work/mysql/build/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0</code></p>
 <p><strong>编译选项对应说明：</strong></p>
 <table>
@@ -401,11 +399,11 @@
 </blockquote>
 <p><strong>解决方法：</strong><br>sudo apt-get update<br>sudo apt-get install -y build-essential</p>
 <p><strong>参考：</strong><br><a href="https://blog.csdn.net/xx352890098/article/details/78819852" target="_blank" rel="external">https://blog.csdn.net/xx352890098/article/details/78819852</a></p>
-<h3 id="2-1-2-再次执行cmake带参数命令"><a href="#2-1-2-再次执行cmake带参数命令" class="headerlink" title="2.1.2:再次执行cmake带参数命令"></a>2.1.2:再次执行cmake带参数命令</h3><p><strong>报错 “找不到curses”：</strong></p>
+<h3 id="再次执行cmake带参数命令"><a href="#再次执行cmake带参数命令" class="headerlink" title="再次执行cmake带参数命令"></a>再次执行cmake带参数命令</h3><p><strong>报错 “找不到curses”：</strong></p>
 <p><code>找不到curses</code></p>
 <p><strong>解决方法：</strong></p>
 <p>sudo apt install libncurses5-dev</p>
-<h3 id="2-1-3-再次执行cmake带参数命令"><a href="#2-1-3-再次执行cmake带参数命令" class="headerlink" title="2.1.3:再次执行cmake带参数命令"></a>2.1.3:再次执行cmake带参数命令</h3><h2 id="2-2-make"><a href="#2-2-make" class="headerlink" title="2.2:make"></a>2.2:make</h2><p>cmake没有错误的情况下，执行make -j4开始编译。<br>无需make install。</p>
+<h3 id="再次执行cmake带参数命令-1"><a href="#再次执行cmake带参数命令-1" class="headerlink" title="再次执行cmake带参数命令"></a>再次执行cmake带参数命令</h3><h2 id="make"><a href="#make" class="headerlink" title="make"></a>make</h2><p>cmake没有错误的情况下，执行make -j4开始编译。<br>无需make install。</p>
 <p><strong>编译pc版本的目的</strong><br>为了产生：</p>
 <ol>
 <li>extra/comp_err </li>
@@ -417,7 +415,7 @@
 </ol>
 <p>这六个文件，这6个文件在编译arm版本的mysql时需要替换过去并touch。否则arm版本不能编译通过。</p>
 <p><strong>至此pc版本mysql编译完成</strong></p>
-<h1 id="编译arm版本mysql"><a href="#编译arm版本mysql" class="headerlink" title="编译arm版本mysql"></a>编译arm版本mysql</h1><h2 id="3-1-交叉编译ncurses"><a href="#3-1-交叉编译ncurses" class="headerlink" title="3.1:交叉编译ncurses"></a>3.1:交叉编译ncurses</h2><p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++</code></p>
+<h1 id="编译arm版本mysql"><a href="#编译arm版本mysql" class="headerlink" title="编译arm版本mysql"></a>编译arm版本mysql</h1><h2 id="交叉编译ncurses"><a href="#交叉编译ncurses" class="headerlink" title="交叉编译ncurses"></a>交叉编译ncurses</h2><p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++</code></p>
 <p><strong>遇到问题：</strong></p>
 <blockquote>
 <p>In file included from ./curses.priv.h:325:0,<br>                from ../ncurses/lib_gen.c:19:_24273.c:843:15: error: expected ‘)’ before ‘int’<br>../include/curses.h:1631:56: note: in definition of macro ‘mouse_trafo’ #define mouse_trafo(y,x,to_screen) wmouse_trafo(dscr,y,x,to_screen)</p>
@@ -426,14 +424,14 @@
 <p>添加<strong>CPPFLAGS=-P</strong>选项  </p>
 <p><code>./configure --prefix=/home/velarn/work/ncurses/build --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++ CPPFLAGS=-P</code></p>
 <p><strong>参考：</strong><br><a href="https://stackoverflow.com/questions/37475222/ncurses-6-0-compilation-error-error-expected-before-int/37475223" target="_blank" rel="external">https://stackoverflow.com/questions/37475222/ncurses-6-0-compilation-error-error-expected-before-int/37475223</a></p>
-<h2 id="3-2-执行CMAKE"><a href="#3-2-执行CMAKE" class="headerlink" title="3.2:执行CMAKE"></a>3.2:执行CMAKE</h2><p>将mysql源码压缩包解压至mysql-5.7.21-arm文件夹并执行:</p>
+<h2 id="执行CMAKE"><a href="#执行CMAKE" class="headerlink" title="执行CMAKE"></a>执行CMAKE</h2><p>将mysql源码压缩包解压至mysql-5.7.21-arm文件夹并执行:</p>
 <p><code>cmake . -LH -DCMAKE_INSTALL_PREFIX=/usr/local/arm/mysql -DMYSQL_DATADIR=/usr/local/arm/mysql/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci  -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1  -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DWITH_BOOST=/home/velarn/work/boost/boost_1_59_0 -DCURSES_INCLUDE_PATH=/home/velarn/work/ncurses/build/include/ncurses -DCURSES_LIBRARY=/home/velarn/work/ncurses/build/lib/libncurses.a</code></p>
 <p><strong>需要注意的是</strong></p>
 <p><code>-DCMAKE_INSTALL_PREFIX=/usr/local/arm/mysql
 -DMYSQL_DATADIR=/usr/local/arm/mysql/data</code></p>
 <p><strong>这两项会被填充到最终生成的mysql.server文件中，因此在arm环境中，务必使mysql所在文件夹与此目录相同。否则在arm端运行mysql时会出现问题。</strong></p>
-<h2 id="3-3-执行make"><a href="#3-3-执行make" class="headerlink" title="3.3:执行make"></a>3.3:执行make</h2><p>cmake无错误，执行make</p>
-<h3 id="3-3-1-make时可能出现的错误"><a href="#3-3-1-make时可能出现的错误" class="headerlink" title="3.3.1:make时可能出现的错误"></a>3.3.1:make时可能出现的错误</h3><p> <strong>第一类：</strong> ncurses文件的头文件包含路径问题</p>
+<h2 id="执行make"><a href="#执行make" class="headerlink" title="执行make"></a>执行make</h2><p>cmake无错误，执行make</p>
+<h3 id="make时可能出现的错误"><a href="#make时可能出现的错误" class="headerlink" title="make时可能出现的错误"></a>make时可能出现的错误</h3><p> <strong>第一类：</strong> ncurses文件的头文件包含路径问题</p>
 <p> <strong>第二类：</strong> 用于测试的文件不能执行 </p>
 <p> <strong>第三类：</strong> Unsupported platform错误</p>
 <p>下面简单记述一番。</p>
@@ -464,16 +462,16 @@
 </blockquote>
 <p>此问题之详细描述请参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。</p>
 <p>主要解决思想就是修改os0atomic.h和os0atomic.ic两个文件的一些宏定义。</p>
-<h2 id="3-4-执行make-install"><a href="#3-4-执行make-install" class="headerlink" title="3.4:执行make-install"></a>3.4:执行make-install</h2><p>执行make并在无错误后，执行完make install，之后会在/usr/local/arm/目录下生成mysql文件夹。</p>
-<h2 id="3-5-需要拷贝并touch的文件列表"><a href="#3-5-需要拷贝并touch的文件列表" class="headerlink" title="3.5:需要拷贝并touch的文件列表"></a>3.5:需要拷贝并touch的文件列表</h2><blockquote>
+<h2 id="执行make-install"><a href="#执行make-install" class="headerlink" title="执行make-install"></a>执行make-install</h2><p>执行make并在无错误后，执行完make install，之后会在/usr/local/arm/目录下生成mysql文件夹。</p>
+<h2 id="需要拷贝并touch的文件列表"><a href="#需要拷贝并touch的文件列表" class="headerlink" title="需要拷贝并touch的文件列表"></a>需要拷贝并touch的文件列表</h2><blockquote>
 <p>$ cp extra/comp_err /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/<br>$ cp scripts/comp_sql /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/scripts/<br>$ cp sql/gen_lex_hash /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/<br>$ cp sql/gen_lex_token /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/<br>$ cp extra/protobuf/protoc /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/protobuf/<br>$ cp libmysql/libmysql_api_test /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/libmysql/    </p>
 </blockquote>
 <p><strong>至此ARM版的mysql交叉编译完成。</strong></p>
-<h1 id="部署到目标arm板"><a href="#部署到目标arm板" class="headerlink" title="部署到目标arm板"></a>部署到目标arm板</h1><h2 id="4-1-拷贝文件："><a href="#4-1-拷贝文件：" class="headerlink" title="4.1:拷贝文件："></a>4.1:拷贝文件：</h2><ol>
+<h1 id="部署到目标arm板"><a href="#部署到目标arm板" class="headerlink" title="部署到目标arm板"></a>部署到目标arm板</h1><h2 id="拷贝文件："><a href="#拷贝文件：" class="headerlink" title="拷贝文件："></a>拷贝文件：</h2><ol>
 <li>将/usr/local下的arm目录打包压缩并上传至目标机器的/usr/local/中并解压.</li>
 <li>在/usr/local/arm/mysql目录下创建data文件夹。</li>
 </ol>
-<h2 id="4-2-初始化mysql"><a href="#4-2-初始化mysql" class="headerlink" title="4.2:初始化mysql"></a>4.2:初始化mysql</h2><p>执行：（注意目录）</p>
+<h2 id="初始化mysql"><a href="#初始化mysql" class="headerlink" title="初始化mysql"></a>初始化mysql</h2><p>执行：（注意目录）</p>
 <p><code>./mysqld --user=root --basedir=/usr/local/arm/mysql --datadir=/usr/local/arm/mysql/data --initialize</code></p>
 <p>以初始化mysql环境。</p>
 <p>显示信息：</p>
@@ -482,11 +480,11 @@
 </blockquote>
 <p><strong>配置成功</strong></p>
 <p><strong>需要注意的是， “1NSRjqXdTd!&amp;”是自动生成的密码，请记录下来。</strong></p>
-<h2 id="4-3-启动mysql"><a href="#4-3-启动mysql" class="headerlink" title="4.3:启动mysql"></a>4.3:启动mysql</h2><p>执行：</p>
+<h2 id="启动mysql"><a href="#启动mysql" class="headerlink" title="启动mysql"></a>启动mysql</h2><p>执行：</p>
 <p><code>./mysqld --user=root &amp;</code></p>
 <p><strong>启动成功</strong></p>
 <p>至此可以在终端执行 ps -aux | grep mysql 来查看mysql的pid。</p>
-<h2 id="4-4-另外一种启动方式："><a href="#4-4-另外一种启动方式：" class="headerlink" title="4.4:另外一种启动方式："></a>4.4:另外一种启动方式：</h2><p>网上诸多教程中，是通过执行./support-files/mysql.server start来启动mysql，但是会出现大名鼎鼎的<strong>The server quit without updating PID file</strong>错误。</p>
+<h2 id="另外一种启动方式："><a href="#另外一种启动方式：" class="headerlink" title="另外一种启动方式："></a>另外一种启动方式：</h2><p>网上诸多教程中，是通过执行./support-files/mysql.server start来启动mysql，但是会出现大名鼎鼎的<strong>The server quit without updating PID file</strong>错误。</p>
 <p>例如，执行：</p>
 <p><code>./support-files/mysql.server start</code></p>
 <p>则显示信息：</p>
@@ -535,7 +533,7 @@
 </blockquote>
 <p>所以，加上权限就行了。</p>
 <p><strong>至此arm版的mysql移植完成。</strong></p>
-<h2 id="4-5-添加开机启动，待续。"><a href="#4-5-添加开机启动，待续。" class="headerlink" title="4.5:添加开机启动，待续。"></a>4.5:添加开机启动，待续。</h2><h1 id="一些其他操作"><a href="#一些其他操作" class="headerlink" title="一些其他操作"></a>一些其他操作</h1><h2 id="5-1-登陆mysql："><a href="#5-1-登陆mysql：" class="headerlink" title="5.1:登陆mysql："></a>5.1:登陆mysql：</h2><p>执行：<br><code>./mysql -u root –p</code><br>显示</p>
+<h2 id="添加开机启动，待续。"><a href="#添加开机启动，待续。" class="headerlink" title="添加开机启动，待续。"></a>添加开机启动，待续。</h2><h1 id="一些其他操作"><a href="#一些其他操作" class="headerlink" title="一些其他操作"></a>一些其他操作</h1><h2 id="登陆mysql："><a href="#登陆mysql：" class="headerlink" title="登陆mysql："></a>登陆mysql：</h2><p>执行：<br><code>./mysql -u root –p</code><br>显示</p>
 <blockquote>
 <p>Welcome to the MySQL monitor.  Commands end with ; or \g.<br>Your MySQL connection id is 2<br>Server version: 5.7.21&gt;</p>
 <p>Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.&gt;</p>
@@ -544,15 +542,17 @@
 <p>mysql&gt;</p>
 </blockquote>
 <p>进入mysql成功。</p>
-<h2 id="5-2-更改默认密码"><a href="#5-2-更改默认密码" class="headerlink" title="5.2:更改默认密码"></a>5.2:更改默认密码</h2><p>使用安装时生成的随机密码登陆mysql:  </p>
+<h2 id="更改默认密码"><a href="#更改默认密码" class="headerlink" title="更改默认密码"></a>更改默认密码</h2><p>使用安装时生成的随机密码登陆mysql:  </p>
 <p><code>mysqld -u root -p</code>  </p>
 <p>输入原始随机密码后，采用如下命令重设密码：  </p>
 <p><code>set password = password(&#39;123456&#39;);</code>  </p>
 <p><a href="https://www.jianshu.com/p/53ac2d55b279" target="_blank" rel="external">参考链接</a>  </p>
-<h2 id="5-3-添加软连接"><a href="#5-3-添加软连接" class="headerlink" title="5.3:添加软连接"></a>5.3:添加软连接</h2><p>ln -s /usr/local/arm/mysql/bin/mysql /usr/bin </p>
+<h2 id="添加软连接"><a href="#添加软连接" class="headerlink" title="添加软连接"></a>添加软连接</h2><p>ln -s /usr/local/arm/mysql/bin/mysql /usr/bin </p>
 <p>ln -s /usr/local/arm/mysql/bin/mysqldump /usr/bin </p>
 <p>ln -s /usr/local/arm/mysql/bin/mysqladmin /usr/bin </p>
 <p>ln -s /usr/local/arm/mysql/lib/libmysqlclient.so.20 /lib </p>
+<h1 id="要不要沟通一下？"><a href="#要不要沟通一下？" class="headerlink" title="要不要沟通一下？"></a>要不要沟通一下？</h1><p><strong>问题交流就到github上写issues得了。</strong></p>
+<p><strong><a href="https://github.com/velarn/CrossCompliteArmMysql/issues" target="_blank" rel="external">传送门</a></strong></p>
 
           
         
