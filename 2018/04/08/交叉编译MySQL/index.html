@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="L.LB">
 <meta property="og:description" content="环境描述 硬件平台：天嵌E9-V3 iMX6Q 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-08T10:45:28.487Z">
+<meta property="og:updated_time" content="2018-04-08T13:20:56.529Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为天嵌E9交叉编译MySQL">
 <meta name="twitter:description" content="环境描述 硬件平台：天嵌E9-V3 iMX6Q 交叉编译器版本：arm-none-linux-gnueabihf MySql版本：5.7.21 上位机版本：Ubuntu 17.04  编译前准备主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 下载mysql源码：https://cdn.mysql.com//Downloads">
@@ -562,8 +562,26 @@
 <p>ln -s /usr/local/arm/mysql/bin/mysqldump /usr/bin </p>
 <p>ln -s /usr/local/arm/mysql/bin/mysqladmin /usr/bin </p>
 <p>ln -s /usr/local/arm/mysql/lib/libmysqlclient.so.20 /lib </p>
-<h1 id="要不要沟通一下？"><a href="#要不要沟通一下？" class="headerlink" title="要不要沟通一下？"></a>要不要沟通一下？</h1><p><strong>问题交流就到github上写issues得了。</strong></p>
-<p><strong><a href="https://github.com/velarn/CrossCompliteArmMysql/issues" target="_blank" rel="external">传送门</a></strong></p>
+<h1 id="要不要沟通一下？"><a href="#要不要沟通一下？" class="headerlink" title="要不要沟通一下？"></a>要不要沟通一下？</h1><p><del><strong>问题交流就到github上写issues得了。</strong></del></p>
+<p><del><strong>[传送门]</strong></del></p>
+<p>下面可以评论啦<del>~撒花</del></p>
+<hr>
+<p>顺便说一句，用gitment作评论的时候出现：</p>
+<blockquote>
+<p>Error：validation failed</p>
+</blockquote>
+<p>这个问题，是文章名称造成的。中文编码过长超出了50个字符。</p>
+<p>解决方法：</p>
+<p>把gitment中</p>
+<blockquote>
+<p>new Gitment({<br>           id: window.location.pathname,<br>           owner: ‘‘,<br>           repo: ‘‘,<br>           oauth: {<br>               client_id: ‘‘,<br>               client_secret: ‘‘,<br>           }})</p>
+<p>id: window.location.pathname, </p>
+</blockquote>
+<p>替换为</p>
+<blockquote>
+<p>id: decodeURI(window.location.pathname),</p>
+</blockquote>
+<p>就行了。</p>
 
       
     </div>
