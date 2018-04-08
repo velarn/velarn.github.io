@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="L.LB">
 <meta property="og:description" content="1 编译前准备1.1 主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.2 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.3 下载boost源码：https://jaist.dl.sourceforge.net/proj">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-08T04:18:05.617Z">
+<meta property="og:updated_time" content="2018-04-08T04:24:21.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="交叉编译MySQL">
 <meta name="twitter:description" content="1 编译前准备1.1 主要参考：https://blog.csdn.net/fhyocean/article/details/74960005 1.2 下载mysql源码：https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.21.tar.gz 1.3 下载boost源码：https://jaist.dl.sourceforge.net/proj">
@@ -424,15 +424,11 @@
 <blockquote>
 <p>In file included from /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/cmd-line-utils/libedit/terminal.c:60:0:<br>/home/velarn/work/ncurses/build/include/ncurses/curses.h:60:33: fatal error: ncurses/ncurses_dll.h: No such file or directory<br>compilation terminated.<br>cmd-line-utils/libedit/CMakeFiles/edit.dir/build.make:602: recipe for target ‘cmd-line-utils/libedit/CMakeFiles/edit.dir/terminal.c.o’ failed<br>make[2]: <strong><em> [cmd-line-utils/libedit/CMakeFiles/edit.dir/terminal.c.o] Error 1<br>CMakeFiles/Makefile2:457: recipe for target ‘cmd-line-utils/libedit/CMakeFiles/edit.dir/all’ failed<br>make[1]: </em></strong> [cmd-line-utils/libedit/CMakeFiles/edit.dir/all] Error 2<br>Makefile:162: recipe for target ‘all’ failed<br>make: <em>*</em> [all] Error 2 </p>
 </blockquote>
-<p><strong>解决方法：</strong><br>把/home/velarn/work/ncurses/build//include/ncurses/curses.h头文件的第60行的 </p>
-<p>`</p>
-<p>#include <nucrses ncursed_dll.h=""><br>`</nucrses></p>
-<p>改为</p>
-<p>`</p>
+<p><strong>解决方法：</strong><br>把/home/velarn/work/ncurses/build//include/ncurses/curses.h头文件的第60行的<br>`</p>
+<p>#include <nucrses ncursed_dll.h=""><br><code>改为</code></nucrses></p>
 <p>#include “/home/velarn/work/ncurses/build/include/ncurses/ncurses_dll.h”<br>`</p>
 <p>此外还需要更改<strong>三处</strong>地方，恕不详加列展，具体问题可参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。</p>
 <p><strong>以上解决curses库头文件关联问题。</strong></p>
-<hr>
 <h4 id="第二类：用于测试的文件不能执行"><a href="#第二类：用于测试的文件不能执行" class="headerlink" title="第二类：用于测试的文件不能执行"></a>第二类：用于测试的文件不能执行</h4><p><strong>make时，出现错误：</strong></p>
 <blockquote>
 <p>./comp_err: 1: ./comp_err: Syntax error: word unexpected (expecting “)”)<br>extra/CMakeFiles/GenError.dir/build.make:63: recipe for target ‘include/mysqld_error.h’ failed<br>make[2]: <strong><em> [include/mysqld_error.h] Error 2<br>CMakeFiles/Makefile2:6410: recipe for target ‘extra/CMakeFiles/GenError.dir/all’ failed<br>make[1]: </em></strong> [extra/CMakeFiles/GenError.dir/all] Error 2<br>Makefile:162: recipe for target ‘all’ failed<br>make: <em>*</em> [all] Error 2 </p>
@@ -447,12 +443,12 @@
 <p>此问题之详细描述请参考<a href="https://blog.csdn.net/fhyocean/article/details/74960005" target="_blank" rel="external">主要参考链接</a>。</p>
 <p>主要解决思想就是修改os0atomic.h和os0atomic.ic两个文件的一些宏定义。</p>
 <h2 id="3-4-执行make-install"><a href="#3-4-执行make-install" class="headerlink" title="3.4 执行make install"></a>3.4 执行make install</h2><p>执行make并在无错误后，执行完make install，之后会在/usr/local/arm/目录下生成mysql文件夹。</p>
-<h2 id="3-5-需要拷贝并touch的文件列表"><a href="#3-5-需要拷贝并touch的文件列表" class="headerlink" title="3.5 需要拷贝并touch的文件列表"></a>3.5 需要拷贝并touch的文件列表</h2><p><code>$ cp extra/comp_err /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/  
-$ cp scripts/comp_sql /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/scripts/  
-$ cp sql/gen_lex_hash /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/  
-$ cp sql/gen_lex_token /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/  
-$ cp extra/protobuf/protoc /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/protobuf/  
-$ cp libmysql/libmysql_api_test /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/libmysql/</code></p>
+<h2 id="3-5-需要拷贝并touch的文件列表"><a href="#3-5-需要拷贝并touch的文件列表" class="headerlink" title="3.5 需要拷贝并touch的文件列表"></a>3.5 需要拷贝并touch的文件列表</h2><p>`<br>$ cp extra/comp_err /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/  </p>
+<p>$ cp scripts/comp_sql /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/scripts/  </p>
+<p>$ cp sql/gen_lex_hash /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/  </p>
+<p>$ cp sql/gen_lex_token /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/sql/  </p>
+<p>$ cp extra/protobuf/protoc /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/extra/protobuf/  </p>
+<p>$ cp libmysql/libmysql_api_test /home/velarn/work/mysql/mysql-5.7.21-arm/mysql-5.7.21/libmysql/<br>`</p>
 <p><strong>至此ARM版的mysql交叉编译完成。</strong></p>
 <h1 id="4-部署到目标arm板"><a href="#4-部署到目标arm板" class="headerlink" title="4 部署到目标arm板"></a>4 部署到目标arm板</h1><h2 id="4-1-拷贝文件："><a href="#4-1-拷贝文件：" class="headerlink" title="4.1 拷贝文件："></a>4.1 拷贝文件：</h2><ol>
 <li>将/usr/local下的arm目录打包压缩并上传至目标机器的/usr/local/中并解压.</li>
